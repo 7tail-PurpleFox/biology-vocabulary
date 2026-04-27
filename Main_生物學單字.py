@@ -1,13 +1,22 @@
 from PySide6.QtWidgets import QApplication,QWidget
 from Ui_生物學單字 import Ui_Form
 import json
+import sys
+import os
+
+def get_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except AttributeError:
+        base_path = os.path.abspath(".")
+    return os.path.normpath(os.path.join(base_path, relative_path))
 
 class MyWindow(QWidget,Ui_Form):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
         
-        self.js=json.load(open('temp.json','r'))
+        self.js=json.load(open(get_path('temp.json'),'r'))
         
         self.chapters=[i[:-1] for i in self.js.keys()]
         self.chapters.insert(0,'全部')
